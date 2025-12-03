@@ -106,19 +106,20 @@ def comienzo_juego(jugadores: PlayersDict, deck) -> None:
                 jugador.recibir_carta(carta)
                 if analizar(jugador=jugador):
                     chinchon["chinchon"] = [True, nombre_jugador]
-                jugador.mostrar_cartas_mano(jugador)
+                jugador.mostrar_cartas_mano()
                 puede_cortar, carta_corte = analizar_cortar(jugador)
                 if puede_cortar:
                     print(f"\n¡¡¡¡¡¡ {jugador.nombre} ya puede cortar !!!!!\n")
                     decision = input(f"Quiere cortar(1) o seguir jugando(enter): ")
                     if decision == "1":
-                        descartar(carta_corte, descarte, jugador, jugadores)
+                        descartar(carta_corte, descarte, jugador)
                         corte = True
                         break
                 if not corte:
-                    proceso_descartar(jugador, jugadores, descarte)
+                    print(f"{jugador.nombre} NO puede cortar\n")
+                    proceso_descartar(jugador, descarte)
             if corte:
-                cortar(jugador, jugadores)
+                cortar(jugador.nombre, jugadores)
         jugadores_ok = contar_jugadores_ok(jugadores)
         if len(jugadores_ok) == 1:
             print(f"\n************** El ganador es: {jugadores_ok} **************\n")

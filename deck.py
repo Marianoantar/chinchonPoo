@@ -9,11 +9,15 @@ class Cartas:
     def __init__(self):
         self.mazo = None
         self.descarte = None
-    ##@staticmethod
+
+
     def mezclar_mazo(self) -> None:
         """Mezcla el mazo in-place."""
         random.shuffle(self.mazo)
-    ##@staticmethod
+
+    #----------------------------------------
+    # iniciar_descarte(self)
+    #----------------------------------------
     def iniciar_descarte(self) -> DeckList:
         """
         Inicia pila de descarte: quita la última carta del mazo y la devuelve en una lista.
@@ -24,21 +28,30 @@ class Cartas:
             return []
         primer_carta = m.pop()
         return [primer_carta]
-    ##@staticmethod
+
+    #----------------------------------------
+    # robar_carta_mazo(self)
+    #----------------------------------------
     def robar_carta_mazo(self) -> Optional[Card]:
         """Saca la última carta del mazo y la devuelve o None si no hay."""
         m : DeckList = self.mazo
         if not m:
             return None
         return m.pop()
-    ##@staticmethod
+
+    #----------------------------------------
+    # robar_carta_descarte()
+    #----------------------------------------
     def robar_carta_descarte(self) -> Optional[Card]:
         """Saca la última carta del descarte y la devuelve o None si no hay."""
         d : DeckList = self.descarte
         if not d:
             return None
         return d.pop()
-    ##@staticmethod
+
+    #----------------------------------------
+    # rearmar_mazo_del_descarte()
+    #----------------------------------------
     def rearmar_mazo_del_descarte(self) -> None:
         """
         Vuelca el descarte en el mazo mezclado (in-place).
@@ -52,6 +65,10 @@ class Cartas:
         # mover todas las cartas del descarte al mazo
         m.extend(d)
         d.clear()
+
+    #----------------------------------------
+    # crear_mazo()
+    #----------------------------------------
     @staticmethod
     def crear_mazo() -> DeckList:
         """Crea mazo de cartas españolas (1..12 por cada palo)."""
@@ -59,7 +76,10 @@ class Cartas:
         valores = list(range(1, 13))
         mazo = [(valor, palo) for palo in palos for valor in valores]
         return mazo
-    ##@staticmethod
+
+    #----------------------------------------
+    # levantar_carta()
+    #----------------------------------------
     def levantar_carta(self) -> Optional[Card]:
         """
         Interacción con el usuario para levantar carta de M(azo) o D(escarte).
@@ -77,9 +97,9 @@ class Cartas:
                 continue
             pila = entrada[0].upper()
             if pila == "M":
-                carta = self.robar_carta_mazo(m)
+                carta = self.robar_carta_mazo()
             elif pila == "D":
-                carta = self.robar_carta_descarte(d)
+                carta = self.robar_carta_descarte()
             else:
                 print("\nError: Opción no válida. Volvé a intentar...\n")
                 pila = ""

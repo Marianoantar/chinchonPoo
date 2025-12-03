@@ -3,8 +3,10 @@ from __future__ import annotations
 from typing import Dict, List, Tuple
 from players_manager import iniciar_jugadores
 from system import  comienzo_juego, borrar_pantalla, barajar_y_dar
+
 Card = Tuple[int, str]
 PlayerDict = Dict[int, List]
+
 def inicializar(cantidad_jugadores: int = 2) -> Tuple[dict, List[Card], List[Card]]:
     """
     Inicializa jugadores, mazo y descarte (mantiene la interfaz original).

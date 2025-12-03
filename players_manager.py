@@ -30,28 +30,29 @@ def reiniciar_jugadores(jugadores: PlayersDict) -> None:
             jugadores.pop(jugador)
 
 
-def proceso_descartar(jugador: str, jugadores: PlayersDict, descarte: List[Card]) -> None:
+def proceso_descartar(jugador: Jugador, descarte: List[Card]) -> None:
     print("\nProceso descarte...")
-    for i, carta in enumerate(jugadores[jugador].mano):
+    
+    for i, carta in enumerate(jugador.mano):
         print(f"{i} - {carta}")
     while True:
         elegida = input("Tipea el numero de carta que quieres descartar: ")
         try:
             elegida_i = int(elegida)
-            if 0 <= elegida_i < len(jugadores[jugador].mano):
+            if 0 <= elegida_i < len(jugador.mano):
                 break
             else:
                 print("Error: debes elegir el numero de carta válido")
         except ValueError:
             print("Error: La entrada no es válida. Inténtalo de nuevo.")
-    carta = jugadores[jugador].mano[elegida_i]
-    descartar(carta, descarte, jugador, jugadores)
+    carta = jugador.mano[elegida_i]
+    descartar(carta, descarte, jugador)
 
-def descartar(carta: Card, descarte: List[Card], jugador: str, jugadores: PlayersDict) -> None:
+def descartar(carta: Card, descarte: List[Card], jugador: str) -> None:
     print(f"\nDescartando {carta}...\n")
     try:
-        jugadores[jugador].mano.remove(carta)
-        jugadores[jugador].libres.remove(carta)
+        jugador.mano.remove(carta)
+        jugador.libres.remove(carta)
     except ValueError:
         pass
     descarte.append(carta)

@@ -19,6 +19,7 @@ def reporte(cartas: List[Card]) -> Optional[Tuple[Dict[int, int], Dict[str, List
         repeticiones[numero] = repeticiones.get(numero, 0) + 1
         palos.setdefault(palo, []).append(numero)
     return repeticiones, palos
+
 def hay_escalera(palos: Dict[str, List[int]]) -> Tuple[bool, Dict[str, List[List[int]]], bool]:
     """
     Comprueba si hay escalera(s) por palo.
@@ -53,17 +54,20 @@ def hay_escalera(palos: Dict[str, List[int]]) -> Tuple[bool, Dict[str, List[List
 def analizar(jugador: List[Any]) -> bool:
     """
     Analiza la mano del jugador (estructura original)
-    jugador: [mano, posibles_juegos, cartas_libres, puntos_acumulados, sigue_jugando]
+    Entra: jugador: [mano, posibles_juegos, cartas_libres, puntos_acumulados, sigue_jugando, nombre]
     Retorna True si hay chinchon (flag).
     """
     cartas = jugador.mano.copy()
     libres = jugador.mano.copy()
     jugador.juegos = []
-    k = reporte(cartas)
-    if k is None:
+    
+    resultado_reporte = reporte(cartas)
+    if resultado_reporte is None:
         jugador.libres = libres.copy()
         return False
-    repeticiones, palos = k
+    
+    repeticiones, palos = resultado_reporte
+    
     # tripletas y cuartetos
     for repeticion, veces in repeticiones.items():
         if veces >= 3:
@@ -103,8 +107,10 @@ def analizar_cortar(jugador) -> Tuple[bool, Optional[Card]]:
     """
     print("\nAnalizando para cortar...")
     libres: List[Card] = jugador.libres
-    if len(libres) == 0:
+    
+    if len(libres) == 0: # Si no quedan cartas libres
         return True, None
+    
     libres_ordenadas = sorted(libres)
     carta = libres_ordenadas.pop()
     puntos = jugador.contar_puntos()
