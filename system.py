@@ -18,12 +18,15 @@ def borrar_pantalla() -> None:
         os.system("cls")
     else:
         os.system("clear")
+
+
 def mostrar_encabezado_turno(jugador: PlayerKey) -> None:
     print()
     print("*" * 41)
     print(f"       SIGUIENTE TURNO - {jugador}")
     print("*" * 41)
-# Reparto y mazo
+
+
 def repartir_cartas(jugadores: PlayersDict, deck : Any) -> None:
     for _round in range(7):
         for nombre, jugador in jugadores.items():
@@ -37,12 +40,22 @@ def repartir_cartas(jugadores: PlayersDict, deck : Any) -> None:
             carta = deck.robar_carta_mazo()
             jugador.mano.append(carta)
             jugador.libres.append(carta)
+            
+            
 def barajar_y_dar(jugadores: PlayersDict) -> Tuple[List[Card], List[Card]]:
     deck = Cartas()
-    print("- Mazo Iniciado!!!")
+    
+    # Iniciar mazo
     deck.mazo = deck.crear_mazo()
-    deck.descarte = deck.iniciar_descarte()
+    print("- Mazo Iniciado!!!")
+    
+    # Mezclar mazo
+    random.shuffle(deck.mazo)
     print("- Mazo mezclado!!!")
+    
+    # Iniciar descarte
+    deck.descarte = deck.iniciar_descarte()
+    
     # repartir cartas
     repartir_cartas(jugadores, deck)
     # iniciar pila de descarte
