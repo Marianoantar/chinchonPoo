@@ -9,12 +9,13 @@ PlayerDict = Dict[int, List]
 
 def inicializar(cantidad_jugadores: int = 2) -> Tuple[dict, List[Card], List[Card]]:
     """
-    Inicializa jugadores, mazo y descarte (mantiene la interfaz original).
+    Inicializa jugadores, deck(mazo y descarte) (mantiene la interfaz original).
     """
     jugadores = iniciar_jugadores(cantidad_jugadores)
     print("- jugadores Iniciados!!!")
     deck = barajar_y_dar(jugadores)
     return jugadores, deck
+
 def run() -> None:
     borrar_pantalla()
     print("Bienvenido al juego del CHINCHON\n")

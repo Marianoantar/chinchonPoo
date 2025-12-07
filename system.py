@@ -104,9 +104,16 @@ def comienzo_juego(jugadores: PlayersDict, deck) -> None:
         corte = False
         while not corte:
             for nombre_jugador in jugadores:
+                
                 mostrar_encabezado_turno(nombre_jugador)
+                
+                # Envía objeto jugador a Analizar
+                # analizar() devuelve un booleano en respuesta si hay o no chinchon
+                # a la vez, de acuerdo al reporte() que hace analizar() reacomoda las cartas  
+                # de jugador.juegos y jugador.libres
                 if analizar(jugador=jugadores[nombre_jugador]):
                     chinchon["chinchon"] = [True, nombre_jugador]
+                    
                 jugador = jugadores[nombre_jugador]
                 jugador.mostrar_cartas_mano()
                 while True:

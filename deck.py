@@ -27,6 +27,7 @@ class Cartas:
         if not m:
             return []
         primer_carta = m.pop()
+        
         return [primer_carta]
 
     #----------------------------------------

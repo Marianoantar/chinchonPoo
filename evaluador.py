@@ -99,19 +99,70 @@ def analizar(jugador: List[Any]) -> bool:
         jugador.libres = libres.copy()
     return chinchon
 
+# --------------------
+# elegir_carta_para_cortar()
+# --------------------
+def elegir_carta_para_cortar(juegos):
+    '''
+    Funcion que elije una carta para cortar sacada desde los juegos
+    Entra: juegos
+    Sale carta
+    '''
+    posible_carta = (0,"")
+    for indice, juego in enumerate(juegos):
+        
+        # Revisamos el primer juego que tenga MAS de 3 cartas
+        if len(juego) > 3 and posible_carta[0] == 0:
+            posible_carta = juego.pop() # Directamente le asigna la ultima carta del juego y la borra
+            continue
+        
+        # Si hay otro juego de MAS de 3 cartas
+        if len(juego) > 3:
+            print(f"\nposible_carta[0]: {posible_carta[0]}") #!!!!!!!!
+            print(f"juego[-1]: {juego[-1]} - juego[-1][0]: {juego[-1][0]}\n") #!!!!!!!!
+            
+            # Si la última carta del juego actual es mas alta que la que la del anterior
+            # restituye la anterior a su juego y marca la actual para cortar
+            if posible_carta[0] <  juego[-1][0]:
+                juegos[indice-1].append(posible_carta)
+                posible_carta = juego.pop()
+    
+    carta = posible_carta
+    return carta
 
 def analizar_cortar(jugador) -> Tuple[bool, Optional[Card]]:
     """
     Determina si puede cortar: si no quedan libres => puede cortar (pero no hay carta para devolver).
     Si quedan libres, calcula puntos y devuelve True/False y la carta candidata a cortes (la mayor).
     """
+    se_puede_cortar = False
+    
     print("\nAnalizando para cortar...")
     libres: List[Card] = jugador.libres
     
-    if len(libres) == 0: # Si no quedan cartas libres
-        return True, None
+    # Analizar -----------------------------------------------------------------------------------------
+    
+    # Si queda 1 carta libre( habiendo levantado) PUEDE CORTAR
+    if len(libres) == 1: 
+        return [True, libres[0]]
+    
+    # Si habiendo levantado una carta y TODAS las cartas en mano mas la carta levantada 
+    # entran en juegos entonces libres está vacía.
+    # Habria que cortar con la una carta que 
+    #   -no rompa un juego(la cuarta de una pierna)
+    #   -la ultima de una escalera de MAS de 3 cartas
+    if len(libres) == 0: 
+        carta_para_cortar = elegir_carta_para_cortar(jugador.juegos)
+        # Borrar de juegos la carta para cortar
+        print(f"\nCarta para cortar: {carta_para_cortar}\n") #!!!!!!!
+        return [True, carta_para_cortar]
     
     libres_ordenadas = sorted(libres)
-    carta = libres_ordenadas.pop()
-    puntos = jugador.contar_puntos()
-    return (True if puntos <= 7 else False), carta
+    carta_para_cortar = libres_ordenadas.pop()
+    
+    # Contar puntos de libres_ordenadas ya que la carta mas alta de libres_ordenadas YA FUE BORRADA
+    # y se usaría para cortar (carta)
+    puntos = sum(carta[0] for carta in libres_ordenadas)
+    
+    return [(True if puntos <= 7 else False), carta_para_cortar]
+    
