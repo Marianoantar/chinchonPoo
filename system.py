@@ -43,6 +43,11 @@ def repartir_cartas(jugadores: PlayersDict, deck : Any) -> None:
             
             
 def barajar_y_dar(jugadores: PlayersDict) -> Tuple[List[Card], List[Card]]:
+    '''
+    Funcion que baraja las cartas y da nuevamente
+    entra: lista dejugadores
+    sale: tupla conteniendo
+    '''
     deck = Cartas()
     
     # Iniciar mazo
@@ -58,7 +63,10 @@ def barajar_y_dar(jugadores: PlayersDict) -> Tuple[List[Card], List[Card]]:
     
     # repartir cartas
     repartir_cartas(jugadores, deck)
-    # iniciar pila de descarte
+
+    # descarte = deck.descarte
+    # mazo = deck.mazo
+    # return [mazo, descarte]
     return deck
 
 
@@ -80,6 +88,7 @@ def cortar(nombre: PlayerKey, jugadores: PlayersDict) -> int:
         puntos_sumados = jugador.contar_puntos()
         jugador.puntos += puntos_sumados
         jugador.chequear_puntos()
+        jugador.bajar_cartas()
     mostrar_tabla_puntos(jugadores)
     jugadores_ok = contar_jugadores_ok(jugadores)
     return len(jugadores_ok)
@@ -149,11 +158,15 @@ def comienzo_juego(jugadores: PlayersDict, deck) -> None:
             print(f"\n************** El ganador es: {ganador} **************\n")
             print("HA FORMADO CHINCHON!!!!!!!!!!!!!!!!")
             break
-        seguir = input("Para seguir con la siguiente ronda pulsar enter(ingresa x para salir): ")
+        seguir = input(f"\nPara seguir con la siguiente ronda pulsar enter(ingresa x para salir): ")
         if seguir.upper() == "X":
             print("Elegiste salir del juego")
             break
+        
+        # Comenzar nueva ronda
         borrar_pantalla()
         reiniciar_jugadores(jugadores)
-        mazo, descarte = barajar_y_dar(jugadores)
+        deck = barajar_y_dar(jugadores)
+        descarte = deck.descarte
+        mazo = deck.mazo
     print("\n************** FIN DE JUEGO **************\n")

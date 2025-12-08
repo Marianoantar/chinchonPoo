@@ -50,7 +50,7 @@ def acomodar_cartas(jugadores):
 
     # 2 escalera de basto(1,2,3) y (7,8,9). Libre 11 de espadas
     jugadores["Jugador_1"].mano = [(1, 'basto'), (2, 'basto'), (3, 'basto'), (4, 'basto'), (7, 'basto'),  (8, 'basto'), (9, 'basto')]
-    jugadores["Jugador_2"].puntos= 95
+    # jugadores["Jugador_2"].puntos= 95
 
     # CHINCHON
     # jugadores["Jugador_1"] = [[(1, 'basto'), (2, 'basto'), (3, 'basto'), (4, 'basto'), (5, 'basto'),  (6, 'basto'), (7, 'basto')], [], [], 0, True]

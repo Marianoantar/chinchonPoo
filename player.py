@@ -18,6 +18,11 @@ class Jugador:
         print(f" . juegos posibles: {self.juegos}")
         print(f" . cartas libres: {self.libres}")
         print(f" . puntos en mano: {self.contar_puntos()}")
+        
+    def bajar_cartas(self) -> None:
+        print(f"\nJugador {self.nombre}")
+        print(f" . juegos armados: {self.juegos}")
+        print(f" . cartas libres: {self.libres}")
 
     def contar_puntos(self) -> int:
         cartas: List[Card] = self.libres
